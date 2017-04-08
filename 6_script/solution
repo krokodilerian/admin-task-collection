@@ -1,0 +1,27 @@
+Basically, it should look like this:
+
+~~~~~~sh
+#!/bin/bash
+
+DST=/tmp/adsf
+mkdir -p $DST
+
+(while /bin/true ; do
+	read usr
+	if [ -z "$usr" ]; then
+		break
+	fi
+
+	if `echo "$usr" |grep -q '/'`; then
+		echo INVALID SYBOLS IN "$usr"
+		continue
+	fi
+
+	mkdir -v -p "$DST/$usr"
+	cp -a skel "$dst/$usr"
+	chown -R bin.bin "$dst/$usr"
+
+done) <userlist
+~~~~~~
+
+The parameters need to be quoted, AND / is not an allowed symbol. It can also be done by filtering everything that's not in [A-Za-z0-9], based on the solvee's discretion.

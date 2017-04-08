@@ -1,0 +1,1 @@
+The script `mkdirs.sh` reads a list of usernames, creates directories for them and copies the skeleton files. It's horribly broken and made one server unbootable. Explain why and how should it be fixed.
