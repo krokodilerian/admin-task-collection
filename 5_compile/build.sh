@@ -22,4 +22,4 @@ cd `dirname $0` || true
 
 
 
-cp files/gen.c $dst/
+cp files/gen.c "$dst/"
