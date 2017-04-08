@@ -1,0 +1,4 @@
+There are three directories, named "one", "two" and "three".
+
+For each of the directories:
+Count all files and all files with unique content in it and all sub-directories.

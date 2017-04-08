@@ -1,0 +1,1 @@
+find dirname -type f -print0 |xargs sha256sum |cut -d ' ' -f 1 |sort |uniq|wc -l

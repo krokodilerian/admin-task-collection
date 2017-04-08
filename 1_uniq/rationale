@@ -1,0 +1,3 @@
+This is basic shell scripting and knowledge how to handle files with bad names. If you know how to use `xargs` and what `-print0` means, and any basic hash function, you should be fine.
+
+Note that the proper hashing is at least `SHA256`, as `SHA1` and `MD5` are broken and I've included these here on purpose.
