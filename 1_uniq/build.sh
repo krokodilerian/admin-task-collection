@@ -6,14 +6,23 @@ if [ -z "$1" ]; then
 	exit 3
 fi
 
-cd `dirname $0` || true
-
 dst="$1"
 
 if ! [ -d "$dst" ]; then
 	echo "Directory $dst doesn't exits."
 	exit 2
 fi
+
+pushd "$dst" > /dev/null
+dst=`pwd`
+popd > /dev/null
+
+
+cd `dirname $0` || true
+
+
+
+
 # one is easy
 
 for i in `seq 1 3`; do
