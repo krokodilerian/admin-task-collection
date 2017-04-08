@@ -1,0 +1,3 @@
+gcc -o gen gen.c -lmhash -DDEFAULT_KEY_LEN=7
+
+generates random serial numbers, accepts an argument how long they should be.
