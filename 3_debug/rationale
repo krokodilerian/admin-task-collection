@@ -1,0 +1,4 @@
+I've had problems like this a lot:
+
+- In `a`, it tries to read a file only it knows, and doesn't check the error code. A LOT of programs do that.
+- In `b`, it's an environment variable. This would've been a lot easier of strace worked, but the binary is static...

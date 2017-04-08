@@ -1,0 +1,50 @@
+Strace the first one. It tries to open "pesho" and works if you give it big enough file (prints the ascii of every character).
+
+The second one is harder. If you disassemble it around the crash, you can see it calling getenv():
+
+~~~~~~~
+   0x0000000000400b5a <+172>:	callq  0x406c70 <getenv>
+   0x0000000000400b5f <+177>:	mov    %rax,-0x10(%rbp)
+   0x0000000000400b63 <+181>:	mov    -0x10(%rbp),%rax
+=> 0x0000000000400b67 <+185>:	movzbl (%rax),%eax
+~~~~~~~
+
+From this it's not hard to see what string can be the environment variable, set it to something and proceed. Find that in the x86_64 the calling convention is to pass the first argument in register `rdi`, then check what's in it, and voila:
+
+~~~~~~~
+Reading symbols from ./b...(no debugging symbols found)...done.
+(gdb) r
+Starting program: /home/vasil/sp/tasks/b 
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000000000400b67 in main ()
+(gdb) info registers
+rax            0x0	0
+rbx            0x4002e0	4195040
+rcx            0xca4	3236
+rdx            0x40	64
+rsi            0x0	0
+rdi            0x489ca4	4758692
+rbp            0x7fffffffe0f0	0x7fffffffe0f0
+rsp            0x7fffffffe0a0	0x7fffffffe0a0
+r8             0x4	4
+r9             0x2	2
+r10            0x2	2
+r11            0x1	1
+r12            0x401700	4200192
+r13            0x401790	4200336
+r14            0x0	0
+r15            0x0	0
+rip            0x400b67	0x400b67 <main+185>
+eflags         0x10202	[ IF RF ]
+cs             0x33	51
+ss             0x2b	43
+ds             0x0	0
+es             0x0	0
+fs             0x0	0
+gs             0x0	0
+(gdb) print (char *) 0x489ca4
+$1 = 0x489ca4 "TMPDIR"
+~~~~~~~
+
+If you set TMPDIR to something, it'll ask for a password. TODO explain how to reverse that.
