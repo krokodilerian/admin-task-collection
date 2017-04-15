@@ -1,0 +1,35 @@
+Some time ago a vulnerability was discovered in most scripted languages. It's described in http://seclists.org/fulldisclosure/2011/Dec/477 in detail.
+
+In the language X, which also has this problem, this is the used hash function:
+
+~~~~~~C
+inline uint32_t zend_inline_hash_func(const char *arKey, uint32_t nKeyLength)
+{
+	register uint32_t hash = 3317;
+
+	/* variant with the hash unrolled eight times */
+	for (; nKeyLength >= 8; nKeyLength -= 8) {
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+		hash = ((hash << 5) + hash) + *arKey++;
+	}
+	switch (nKeyLength) {
+		case 7: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 6: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 5: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 4: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 3: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 2: hash = ((hash << 5) + hash) + *arKey++; /* fallthrough... */
+		case 1: hash = ((hash << 5) + hash) + *arKey++; break;
+		case 0: break;
+	}
+	return hash;
+}	      
+~~~~~~
+
+Create a GET request which has parameters with names that all collide in this function, and a small tool that using it can detect if the script running at a specific url is using a vulnerable runtime. You can test it against https://vasil.ludost.net/atc/hashtest.cgi.
