@@ -1,0 +1,1 @@
+Make a HTTP request to https://spnagios.storpool.com/confupd/meow.php with parameter "hi" to equal two_unique from the previous task, without a browser or curl and you'll get an email address.

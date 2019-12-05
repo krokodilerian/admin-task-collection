@@ -1,0 +1,7 @@
+openssl s_client -connect ...
+
+```
+GET /meow.php?hi=..
+Host: spnagios.storpool.com
+```
+
