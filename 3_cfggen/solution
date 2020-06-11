@@ -1,0 +1,22 @@
+#!/bin/bash
+
+list=""
+for i in cfg/*; do
+	if ! validate.sh "$i"; then
+		continue
+	fi
+	list=$list" $i"	
+done
+
+cat $list > config.cfg
+
+for i in $list; do
+	if grep -q "^${i}:" passwd; then
+		continue
+	fi
+
+	pass=`pwgen 16 1`
+	encpass=`mkpasswd $pass`
+	echo $i:$encpass >> passwd
+	echo user $i password $pass
+done

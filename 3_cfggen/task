@@ -1,0 +1,13 @@
+In the directory ... there is a sub-directory named `cfg`, a passwd file, and a validator called `validate.sh`.
+
+Write a script that:
+
+- validates all files in `cfg` with `validate.sh`;
+- reports which files are broken and where;
+- Creates one file from all sucessfully validated config files (concatenating them) in config.cfg;
+- Checks if for all valid `cfg` file names if it present as an user name in the passwd file and if not, adds it with a random password, which it also prints out.
+
+The passwd file format is `username:hashed_password`, the password is hashed using `mkpasswd`.
+
+The script should be able to handle new config pieces added to the `cfg` directory.
+
