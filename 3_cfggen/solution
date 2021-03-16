@@ -1,3 +1,4 @@
+```
 #!/bin/bash
 
 list=""
@@ -20,3 +21,4 @@ for i in $list; do
 	echo $i:$encpass >> passwd
 	echo user $i password $pass
 done
+```
